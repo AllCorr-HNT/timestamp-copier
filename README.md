@@ -1,34 +1,26 @@
-# MyCodex Timestamp Copier
+# MyCodex Timestamp Copier v2.0
 
-Aplikacja w zasobniku systemowym (system tray) która jednym kliknięciem
-kopiuje aktualny timestamp sesji do schowka.
+Małe okienko always-on-top z żywym zegarem.
+Jedno kliknięcie = timestamp w schowku.
 
 ## Działanie
 
-- **Lewy klik** ikony → timestamp w schowku + toast z potwierdzeniem
-- **Prawy klik** → menu (Kopiuj / Zamknij)
-- Format: `Sesja: 30/04/2026 14:15`
+- **Kliknięcie lewym** na zegar → `Sesja: 30/04/2026 14:15` w schowku
+- Okienko zmienia kolor na zielony i pokazuje `✓ Skopiowano!`
+- **Prawy klik** → menu (kopiuj / always-on-top toggle / zamknij)
+- **Przeciągnij** okienko w dowolne miejsce ekranu
 
 ## Wymagania
 
 - Windows 10/11
-- Python 3.8+ (https://python.org) — zaznacz "Add Python to PATH"
-- Biblioteki: `pystray`, `pillow` (instalowane automatycznie przez INSTALUJ.bat)
+- Python 3.8+ z opcją "Add Python to PATH"
+- Biblioteka: `pyperclip` (instalowana przez INSTALUJ.bat)
 
 ## Instalacja
 
-1. Uruchom `INSTALUJ.bat` jako zwykły użytkownik (nie Administrator)
-2. Opcjonalnie zaznacz autostart przy starcie Windows
-3. Ikona pojawi się w zasobniku (prawy dolny róg, może być ukryta — kliknij strzałkę ^)
-
-## Przypięcie do paska zadań
-
-Windows nie pozwala przypiąć aplikacji tray bezpośrednio do paska.
-Najwygodniejsze rozwiązanie:
-
-1. Prawym na `timestamp_copier.pyw` → Wyślij do → Pulpit (utwórz skrót)
-2. Skrót można przeciągnąć do paska szybkiego uruchamiania (Quick Launch)
-   lub trzymać na pulpicie
+1. Uruchom `INSTALUJ.bat`
+2. Okienko pojawi się w prawym dolnym rogu ekranu
+3. Opcjonalnie dodaj do autostartu
 
 ## Ręczne uruchomienie
 
@@ -36,8 +28,15 @@ Najwygodniejsze rozwiązanie:
 pythonw timestamp_copier.pyw
 ```
 
-## Odinstalowanie
+## Zmiana wersji
 
-Zamknij przez prawy klik → Zamknij, usuń folder.
-Jeśli dodano autostart: usuń skrót z:
-`C:\Users\[użytkownik]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
+### v2.0
+- Stałe okienko always-on-top zamiast ikony tray
+- Naprawiony schowek (pyperclip zamiast tkinter clipboard)
+- Zegar z sekundami (dd/mm/rrrr hh:mm:ss)
+- Wizualne potwierdzenie kopiowania (zielone tło)
+- Przeciąganie okienka w dowolne miejsce
+- Toggle always-on-top przez prawy klik
+
+### v1.0
+- Ikona w zasobniku systemowym (tray)

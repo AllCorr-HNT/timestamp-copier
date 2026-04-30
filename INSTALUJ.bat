@@ -1,9 +1,9 @@
 @echo off
-title MyCodex Timestamp Copier — Instalator
+title MyCodex Timestamp Copier v2 — Instalator
 echo.
-echo  ========================================
-echo   MyCodex Timestamp Copier — Instalacja
-echo  ========================================
+echo  ==========================================
+echo   MyCodex Timestamp Copier v2 — Instalacja
+echo  ==========================================
 echo.
 
 REM Sprawdz Python
@@ -15,43 +15,43 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-
 echo  [OK] Python znaleziony.
 echo.
-echo  Instalowanie zaleznosci...
-pip install pystray pillow --quiet
 
+echo  Instalowanie zaleznosci...
+pip install pyperclip --quiet
 if errorlevel 1 (
-    echo  [BLAD] Nie udalo sie zainstalowac zaleznosci.
+    echo  [BLAD] Nie udalo sie zainstalowac pyperclip.
     pause
     exit /b 1
 )
-
-echo  [OK] Zaleznosci zainstalowane.
+echo  [OK] pyperclip zainstalowany.
 echo.
 
-REM Ustal pelna sciezke do skryptu
 set SCRIPT_DIR=%~dp0
 set SCRIPT_PATH=%SCRIPT_DIR%timestamp_copier.pyw
 
-REM Stworz skrot w folderze Startup (autostart) — opcjonalnie
-echo  Czy dodac do autostartu Windows? (uruchomi sie przy starcie systemu)
+echo  Czy dodac do autostartu Windows?
 set /p AUTOSTART="  [T/N]: "
 if /i "%AUTOSTART%"=="T" (
-    set STARTUP_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
-    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%STARTUP_DIR%\MyCodex Timestamp.lnk'); $s.TargetPath = 'pythonw.exe'; $s.Arguments = '\"%SCRIPT_PATH%\"'; $s.WorkingDirectory = '%SCRIPT_DIR%'; $s.Description = 'MyCodex Timestamp Copier'; $s.Save()"
+    set STARTUP=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
+    powershell -Command "$ws=New-Object -ComObject WScript.Shell; $s=$ws.CreateShortcut('%STARTUP%\MyCodex Timestamp.lnk'); $s.TargetPath='pythonw.exe'; $s.Arguments='\"%SCRIPT_PATH%\"'; $s.WorkingDirectory='%SCRIPT_DIR%'; $s.Save()"
     echo  [OK] Dodano do autostartu.
 )
 
 echo.
-echo  Uruchamianie aplikacji...
+echo  Uruchamianie...
 start "" pythonw "%SCRIPT_PATH%"
 
 echo.
-echo  ========================================
-echo   Gotowe! Ikona pojawila sie w zasobniku.
-echo   Kliknij lewy przycisk = kopiuj timestamp
-echo   Kliknij prawy przycisk = menu / zamknij
-echo  ========================================
+echo  ==========================================
+echo   Gotowe!
+echo   Szukaj malego okienka w prawym dolnym
+echo   rogu ekranu.
+echo.
+echo   Kliknij na zegar = kopiuj timestamp
+echo   Prawy przycisk   = menu
+echo   Przeciagnij      = przesuń okienko
+echo  ==========================================
 echo.
 pause

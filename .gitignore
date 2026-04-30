@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+venv/
+.venv/
+env/
+dist/
+build/
+*.egg-info/
+*.spec
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Edytory
+.vscode/settings.json
+.idea/
+*.swp
+*~
+
+# Archiwa
+*.zip
+*.7z
+
+# Logi i sekrety
+*.log
+.env
+secrets.py
