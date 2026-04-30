@@ -1,8 +1,9 @@
 @echo off
-title MyCodex Timestamp Copier v2 — Instalator
+chcp 65001 >nul
+title MyCodex Timestamp Copier v2 - Instalator
 echo.
 echo  ==========================================
-echo   MyCodex Timestamp Copier v2 — Instalacja
+echo   MyCodex Timestamp Copier v2 - Instalacja
 echo  ==========================================
 echo.
 
@@ -19,7 +20,7 @@ echo  [OK] Python znaleziony.
 echo.
 
 echo  Instalowanie zaleznosci...
-pip install pyperclip --quiet
+pip install pyperclip --quiet --disable-pip-version-check
 if errorlevel 1 (
     echo  [BLAD] Nie udalo sie zainstalowac pyperclip.
     pause
@@ -28,15 +29,36 @@ if errorlevel 1 (
 echo  [OK] pyperclip zainstalowany.
 echo.
 
-set SCRIPT_DIR=%~dp0
-set SCRIPT_PATH=%SCRIPT_DIR%timestamp_copier.pyw
+set "SCRIPT_DIR=%~dp0"
+set "SCRIPT_PATH=%~dp0timestamp_copier.pyw"
+set "STARTUP_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
+set "SHORTCUT=%STARTUP_DIR%\MyCodex Timestamp.lnk"
+set "PS_TEMP=%TEMP%\mycodex_shortcut.ps1"
 
 echo  Czy dodac do autostartu Windows?
 set /p AUTOSTART="  [T/N]: "
+
 if /i "%AUTOSTART%"=="T" (
-    set STARTUP=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
-    powershell -Command "$ws=New-Object -ComObject WScript.Shell; $s=$ws.CreateShortcut('%STARTUP%\MyCodex Timestamp.lnk'); $s.TargetPath='pythonw.exe'; $s.Arguments='\"%SCRIPT_PATH%\"'; $s.WorkingDirectory='%SCRIPT_DIR%'; $s.Save()"
-    echo  [OK] Dodano do autostartu.
+    (
+        echo $ws = New-Object -ComObject WScript.Shell
+        echo $s = $ws.CreateShortcut('%SHORTCUT%'^)
+        echo $s.TargetPath = 'pythonw.exe'
+        echo $s.Arguments = '"%SCRIPT_PATH%"'
+        echo $s.WorkingDirectory = '%SCRIPT_DIR%'
+        echo $s.Description = 'MyCodex Timestamp Copier'
+        echo $s.Save(^)
+    ) > "%PS_TEMP%"
+
+    powershell -ExecutionPolicy Bypass -File "%PS_TEMP%"
+
+    if exist "%SHORTCUT%" (
+        echo  [OK] Dodano do autostartu.
+    ) else (
+        echo  [UWAGA] Nie udalo sie dodac do autostartu.
+        echo          Mozesz recznie umiescic skrot w:
+        echo          %STARTUP_DIR%
+    )
+    del "%PS_TEMP%" >nul 2>&1
 )
 
 echo.
@@ -49,9 +71,9 @@ echo   Gotowe!
 echo   Szukaj malego okienka w prawym dolnym
 echo   rogu ekranu.
 echo.
-echo   Kliknij na zegar = kopiuj timestamp
-echo   Prawy przycisk   = menu
-echo   Przeciagnij      = przesuń okienko
+echo   Klik lewy   = kopiuj timestamp
+echo   Klik prawy  = menu
+echo   Przeciagnij = przesun okienko
 echo  ==========================================
 echo.
 pause
